@@ -1,69 +1,34 @@
 *{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:'Poppins',sans-serif;
-  background:#000;
-  color:#fff;
-  overflow-x:hidden;
-}
+body{font-family:'Poppins',sans-serif;background:#000;color:#fff;overflow:hidden;}
 
-canvas#particles{
-  position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;
-}
+canvas#particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
 
 header{text-align:center;margin-top:20px;}
 h3{font-weight:500;font-size:1.2rem;}
 #contador{font-size:0.9rem;opacity:.8;}
 
-.intro-content{text-align:center;margin-top:35vh;}
-.intro-line{font-size:1.3rem;margin:10px 0;opacity:0;animation:fadeIn 2s forwards;}
+#intro{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+.intro-line{opacity:0;animation:fadeIn 2s forwards;}
 .intro-line:nth-child(1){animation-delay:0.5s;}
 .intro-line:nth-child(2){animation-delay:1.5s;}
-#startButton{
-  margin-top:20px;font-size:2rem;background:none;border:none;color:#fff;cursor:pointer;opacity:0;
-  animation:fadeIn 2s forwards 2.5s;
-}
-
+#startButton{margin-top:20px;font-size:2rem;background:none;border:none;color:#fff;cursor:pointer;opacity:0;animation:fadeIn 2s forwards 2.5s;}
 @keyframes fadeIn{to{opacity:1;}}
-@keyframes floaty{0%,100%{transform:translateY(0) rotate(-1deg);}50%{transform:translateY(-5px) rotate(1deg);}}
 
-.stage{
-  padding:100px 20px;
-  text-align:center;
-  background:var(--bg);
-  transition:background 1s;
-  border-top:1px solid rgba(255,255,255,0.1);
-}
-
-.card{
-  display:inline-block;
-  position:relative;
-  width:90%;
-  max-width:350px;
-  border:10px solid #fff;
-  border-bottom:40px solid #fff;
-  border-radius:8px;
-  box-shadow:0 0 40px rgba(255,255,255,0.15);
-  background:#000;
-  transform:rotate(var(--angle,0deg));
-  animation:floaty 4s ease-in-out infinite;
-}
-.foto{
-  display:none;width:100%;height:auto;border-radius:8px;transition:opacity .6s;
-}
+main{height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;transition:opacity 1s;}
+.stage{display:none;flex-direction:column;align-items:center;text-align:center;padding:40px;}
+.stage.active{display:flex;}
+.card{position:relative;width:90%;max-width:350px;border:10px solid #fff;border-bottom:40px solid #fff;border-radius:8px;box-shadow:0 0 40px rgba(255,255,255,0.2);background:#000;animation:floaty 4s ease-in-out infinite;}
+@keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.foto{display:none;width:100%;border-radius:8px;}
 .foto.ativa{display:block;}
-
-.texto{
-  font-size:1.1rem;
-  color:#eee;
-  margin-top:20px;
-  min-height:60px;
-  white-space:pre-line;
-  text-shadow:0 0 10px rgba(255,255,255,0.3);
-  opacity:0;animation:appearText 1s forwards;
-}
-@keyframes appearText{to{opacity:1;}}
-.texto.final{font-size:1.4rem;margin-top:50px;}
-
+.controles{margin-top:10px;}
+.prev,.next{background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:1.5rem;margin:0 5px;padding:5px 10px;border-radius:8px;cursor:pointer;}
+.texto{margin-top:20px;min-height:50px;color:#eee;font-size:1.1rem;text-shadow:0 0 10px rgba(255,255,255,0.3);opacity:0;}
+.texto.show{animation:appear 1s forwards;}
+@keyframes appear{to{opacity:1;}}
+.texto.final{font-size:1.3rem;margin-top:50px;}
 .assinatura{margin-top:10px;font-size:1rem;opacity:.8;}
 
-.final{padding-bottom:120px;}
+#nextStage{position:fixed;bottom:20px;right:20px;font-size:2rem;cursor:pointer;opacity:.7;transition:opacity .3s;}
+#nextStage:hover{opacity:1;}
+#fade{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;opacity:0;pointer-events:none;transition:opacity 1s;}
