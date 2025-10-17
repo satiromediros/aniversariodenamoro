@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Túnel do Tempo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Topo fixo com contador -->
+    <header id="topo">
+        <p id="contador-label">Nosso tempo juntos 💌</p>
+        <p id="contador"></p>
+    </header>
+
+    <!-- Música -->
+    <div id="musica-container">
+        <button id="btn-musica">🎧 Começar</button>
+        <audio id="musica" src="Piloto.mp3"></audio>
+    </div>
+
+    <!-- Etapas do túnel -->
+    <main>
+        <!-- Etapa 1 -->
+        <section class="stage" id="etapa1">
+            <div class="carrossel" data-etapa="1">
+                <img src="fotos/etapa1/1.jpg" class="active">
+                <img src="fotos/etapa1/2.jpg">
+            </div>
+            <p class="texto" data-text="Sobe o som. Desce devagar, e me deixa te contar uma história."></p>
+            <div class="controls">
+                <button class="prev">⬅️</button>
+                <button class="next">➡️</button>
+            </div>
+        </section>
+
+        <!-- Etapa 2 -->
+        <section class="stage" id="etapa2">
+            <div class="carrossel" data-etapa="2">
+                <img src="fotos/etapa2/pedido.jpg" class="active">
+            </div>
+            <p class="texto" data-text="Era 29 de outubro de 2022 e ali eu tomei uma das melhores escolhas da minha vida, dividir ela com você, e desde aquele dia tudo mudou."></p>
+        </section>
+
+        <!-- Etapa 3 -->
+        <section class="stage" id="etapa3">
+            <div class="carrossel" data-etapa="3">
+                <img src="fotos/etapa3/1.jpg" class="active">
+                <img src="fotos/etapa3/2.jpg">
+                <img src="fotos/etapa3/3.jpg">
+                <img src="fotos/etapa3/4.jpg">
+                <img src="fotos/etapa3/5.jpg">
+                <img src="fotos/etapa3/6.jpg">
+                <img src="fotos/etapa3/7.jpg">
+            </div>
+            <p class="texto" data-text="Desde então, já se passaram tantos dias, e ainda me sinto igualzinha quando te vi pela primeira vez."></p>
+            <div class="controls">
+                <button class="prev">⬅️</button>
+                <button class="next">➡️</button>
+            </div>
+        </section>
+
+        <!-- Etapa 4 -->
+        <section class="stage" id="etapa4">
+            <div class="carrossel" data-etapa="4">
+                <img src="fotos/etapa4/1.jpg" class="active">
+                <img src="fotos/etapa4/2.jpg">
+                <img src="fotos/etapa4/3.jpg">
+                <img src="fotos/etapa4/4.jpg">
+                <img src="fotos/etapa4/5.jpg">
+                <img src="fotos/etapa4/6.jpg">
+                <img src="fotos/etapa4/7.jpg">
+            </div>
+            <p class="texto" data-text="Entre planos, momentos e muito dengo, a gente construiu nosso mundinho, só nosso."></p>
+            <div class="controls">
+                <button class="prev">⬅️</button>
+                <button class="next">➡️</button>
+            </div>
+        </section>
+
+        <!-- Etapa 5 -->
+        <section class="stage" id="etapa5">
+            <div class="carrossel" data-etapa="5">
+                <img src="fotos/etapa5/agora.jpg" class="active">
+            </div>
+            <p class="texto" data-text="Hoje, eu só agradeço por ter você, por tudo o que já fomos e tudo o que ainda seremos."></p>
+        </section>
+
+        <!-- Etapa 6 -->
+        <section class="stage" id="etapa6">
+            <div class="carrossel" data-etapa="6">
+                <div class="fundo-final"></div>
+            </div>
+            <p class="texto" data-text="Te amo com toda minha alma, corpo e coração e não vejo a hora de ser sua esposa."></p>
+            <p class="assinatura">Feito com amor por Ana 💌</p>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
