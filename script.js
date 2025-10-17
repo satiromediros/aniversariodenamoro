@@ -21,7 +21,7 @@ function atualizarContador() {
 setInterval(atualizarContador, 1000);
 atualizarContador();
 
-// digitação das frases
+// digitação suave
 async function digitarTexto(el) {
   const texto = el.dataset.text;
   if (!texto) return;
@@ -29,19 +29,16 @@ async function digitarTexto(el) {
   for (let i = 0; i < texto.length; i++) {
     el.textContent += texto[i];
     typing.currentTime = 0;
-    typing.volume = 0.06;
-    typing.play().catch(() => {});
+    typing.volume = 0.05;
+    typing.play().catch(()=>{});
     await new Promise(r => setTimeout(r, 90));
   }
 }
 
-// ativa frases automaticamente
 window.addEventListener("load", () => {
   stages.forEach(stage => {
     const txt = stage.querySelector('.texto');
-    if (txt && txt.dataset.text) {
-      setTimeout(() => digitarTexto(txt), 600);
-    }
+    if (txt && txt.dataset.text) setTimeout(() => digitarTexto(txt), 1000);
   });
 });
 
@@ -62,15 +59,12 @@ stages.forEach(stage => {
   }
 });
 
-// esconde imagens com erro
+// oculta imagens quebradas
 document.querySelectorAll("img.foto").forEach(img => {
-  img.addEventListener("error", () => {
-    console.warn("Imagem não encontrada:", img.src);
-    img.style.display = "none";
-  });
+  img.addEventListener("error", () => img.style.display = "none");
 });
 
-// partículas de fundo
+// partículas
 function resize() {
   canvas.width = innerWidth;
   canvas.height = innerHeight;
@@ -79,30 +73,18 @@ resize();
 window.addEventListener('resize', resize);
 const p = [];
 for (let i = 0; i < 120; i++) {
-  p.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 1.5,
-    dx: (Math.random() - 0.5) * 0.2,
-    dy: (Math.random() - 0.5) * 0.2,
-    a: Math.random() * 0.5 + 0.2
-  });
+  p.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.5, dx:(Math.random()-0.5)*0.2, dy:(Math.random()-0.5)*0.2, a: Math.random()*0.5+0.2});
 }
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (const s of p) {
     s.x += s.dx; s.y += s.dy;
-    if (s.x < 0) s.x = canvas.width;
-    if (s.x > canvas.width) s.x = 0;
-    if (s.y < 0) s.y = canvas.height;
-    if (s.y > canvas.height) s.y = 0;
+    if (s.x < 0) s.x = canvas.width; if (s.x > canvas.width) s.x = 0;
+    if (s.y < 0) s.y = canvas.height; if (s.y > canvas.height) s.y = 0;
     const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 8);
     g.addColorStop(0, `rgba(255,255,255,${s.a})`);
     g.addColorStop(1, `rgba(255,255,255,0)`);
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r * 4, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(s.x, s.y, s.r * 4, 0, Math.PI * 2); ctx.fill();
   }
   requestAnimationFrame(draw);
 }
@@ -111,16 +93,8 @@ draw();
 // botão inicial
 startBtn.addEventListener('click', () => {
   intro.style.opacity = '0';
-  setTimeout(() => {
-    intro.style.display = 'none';
-    window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-  }, 800);
-
-  music.volume = 0.6;
-  music.play().then(() => {
-    console.log("🎵 Música tocando!");
-  }).catch(err => {
-    console.warn("⚠️ Autoplay bloqueado:", err);
+  setTimeout(() => intro.style.display = 'none', 800);
+  music.play().catch(() => {
     document.body.addEventListener('click', () => music.play(), { once: true });
   });
 });
