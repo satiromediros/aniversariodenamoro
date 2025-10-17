@@ -9,88 +9,121 @@ const intro = document.getElementById('intro');
 const startDate = new Date("2022-10-29T00:00:00");
 
 // contador
-function atualizarContador(){
+function atualizarContador() {
   const agora = new Date();
   let diff = agora - startDate;
-  let d = Math.floor(diff / (1000*60*60*24));
-  let h = Math.floor((diff / (1000*60*60)) % 24);
-  let m = Math.floor((diff / (1000*60)) % 60);
+  let d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  let h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  let m = Math.floor((diff / (1000 * 60)) % 60);
   let s = Math.floor((diff / 1000) % 60);
   contador.textContent = `${d}d ${h}h ${m}m ${s}s`;
 }
-setInterval(atualizarContador,1000);
+setInterval(atualizarContador, 1000);
 atualizarContador();
 
 // tipagem
-async function digitarTexto(el){
+async function digitarTexto(el) {
   const texto = el.dataset.text;
+  if (!texto) return;
   el.textContent = "";
-  for(let i=0;i<texto.length;i++){
+  for (let i = 0; i < texto.length; i++) {
     el.textContent += texto[i];
     typing.currentTime = 0;
     typing.volume = 0.06;
-    typing.play().catch(()=>{});
-    await new Promise(r=>setTimeout(r,100));
+    typing.play().catch(() => {});
+    await new Promise(r => setTimeout(r, 100));
   }
 }
 
-// seções
-const observer = new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
+// ativa frases e seções
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
       entry.target.classList.add('ativa');
       const txt = entry.target.querySelector('.texto');
-      if(txt && !txt.textContent) digitarTexto(txt);
+      if (txt && !txt.textContent.trim()) digitarTexto(txt);
     }
   });
-},{threshold:0.5});
-stages.forEach(s=>observer.observe(s));
+}, { threshold: 0.3 });
 
-// fotos
-stages.forEach(stage=>{
-  const fotos = stage.querySelectorAll('.foto');
-  if(fotos.length>1){
-    let idx=0;
-    const next=stage.querySelector('.next');
-    const prev=stage.querySelector('.prev');
-    function show(n){
-      fotos.forEach(f=>f.classList.remove('ativa'));
-      fotos[n].classList.add('ativa');
-    }
-    next?.addEventListener('click',()=>{idx=(idx+1)%fotos.length;show(idx);});
-    prev?.addEventListener('click',()=>{idx=(idx-1+fotos.length)%fotos.length;show(idx);});
-    setInterval(()=>{idx=(idx+1)%fotos.length;show(idx);},5000);
+// garante que todas as frases apareçam mesmo sem observer
+stages.forEach(stage => {
+  observer.observe(stage);
+  const txt = stage.querySelector('.texto');
+  if (txt && stage.getBoundingClientRect().top < window.innerHeight) {
+    digitarTexto(txt);
   }
 });
 
+// carrossel de fotos
+stages.forEach(stage => {
+  const fotos = stage.querySelectorAll('.foto');
+  if (fotos.length > 1) {
+    let idx = 0;
+    const next = stage.querySelector('.next');
+    const prev = stage.querySelector('.prev');
+    function show(n) {
+      fotos.forEach(f => f.classList.remove('ativa'));
+      fotos[n].classList.add('ativa');
+    }
+    next?.addEventListener('click', () => { idx = (idx + 1) % fotos.length; show(idx); });
+    prev?.addEventListener('click', () => { idx = (idx - 1 + fotos.length) % fotos.length; show(idx); });
+    setInterval(() => { idx = (idx + 1) % fotos.length; show(idx); }, 5000);
+  }
+});
+
+// esconde imagens com erro
+document.querySelectorAll("img.foto").forEach(img => {
+  img.addEventListener("error", () => {
+    console.warn("Imagem não encontrada:", img.src);
+    img.style.display = "none";
+  });
+});
+
 // partículas
-function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
-resize();window.addEventListener('resize',resize);
-const p=[];
-for(let i=0;i<120;i++){
-  p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5,dx:(Math.random()-0.5)*0.2,dy:(Math.random()-0.5)*0.2,a:Math.random()*0.5+0.2});
+function resize() {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
 }
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  for(const s of p){
-    s.x+=s.dx;s.y+=s.dy;
-    if(s.x<0)s.x=canvas.width;if(s.x>canvas.width)s.x=0;
-    if(s.y<0)s.y=canvas.height;if(s.y>canvas.height)s.y=0;
-    const g=ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*8);
-    g.addColorStop(0,`rgba(255,255,255,${s.a})`);
-    g.addColorStop(1,`rgba(255,255,255,0)`);
-    ctx.fillStyle=g;
+resize();
+window.addEventListener('resize', resize);
+const p = [];
+for (let i = 0; i < 120; i++) {
+  p.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.5,
+    dx: (Math.random() - 0.5) * 0.2,
+    dy: (Math.random() - 0.5) * 0.2,
+    a: Math.random() * 0.5 + 0.2
+  });
+}
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (const s of p) {
+    s.x += s.dx; s.y += s.dy;
+    if (s.x < 0) s.x = canvas.width;
+    if (s.x > canvas.width) s.x = 0;
+    if (s.y < 0) s.y = canvas.height;
+    if (s.y > canvas.height) s.y = 0;
+    const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 8);
+    g.addColorStop(0, `rgba(255,255,255,${s.a})`);
+    g.addColorStop(1, `rgba(255,255,255,0)`);
+    ctx.fillStyle = g;
     ctx.beginPath();
-    ctx.arc(s.x,s.y,s.r*4,0,Math.PI*2);
+    ctx.arc(s.x, s.y, s.r * 4, 0, Math.PI * 2);
     ctx.fill();
   }
   requestAnimationFrame(draw);
 }
 draw();
 
-// iniciar
-startBtn.addEventListener('click',()=>{
-  intro.style.opacity='0';
-  setTimeout(()=>{intro.style.display='none';window.scrollTo({top:window.innerHeight,behavior:'smooth'});},800);
-  music.play().catch(()=>{});
+// botão inicial
+startBtn.addEventListener('click', () => {
+  intro.style.opacity = '0';
+  setTimeout(() => {
+    intro.style.display = 'none';
+    window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+  }, 800);
+  music.play().catch(() => {});
 });
