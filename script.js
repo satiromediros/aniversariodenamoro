@@ -5,50 +5,87 @@ const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
 const startBtn = document.getElementById('startButton');
 const intro = document.getElementById('intro');
+const nextBtn = document.getElementById('nextStage');
+const fade = document.getElementById('fade');
+let currentStage = 0;
 const startDate = new Date("2022-10-29T00:00:00");
 
 // contador
-function atualizarContador() {
+function atualizarContador(){
   const agora = new Date();
   let diff = agora - startDate;
-  let d = Math.floor(diff / (1000*60*60*24));
-  let h = Math.floor((diff / (1000*60*60)) % 24);
-  let m = Math.floor((diff / (1000*60)) % 60);
-  let s = Math.floor((diff / 1000) % 60);
+  let d = Math.floor(diff/(1000*60*60*24));
+  let h = Math.floor((diff/(1000*60*60))%24);
+  let m = Math.floor((diff/(1000*60))%60);
+  let s = Math.floor((diff/1000)%60);
   contador.textContent = `${d}d ${h}h ${m}m ${s}s`;
 }
 setInterval(atualizarContador,1000);
 atualizarContador();
 
-// efeito digitação
+// digitar texto
 async function digitarTexto(el){
   const texto = el.dataset.text;
-  if(!texto)return;
+  if(!texto) return;
   el.textContent="";
   for(let i=0;i<texto.length;i++){
     el.textContent+=texto[i];
     await new Promise(r=>setTimeout(r,70));
   }
+  el.classList.add("show");
 }
 
-// mostrar texto ao carregar
-window.addEventListener("load",()=>{
-  stages.forEach((stage,i)=>{
-    const txt = stage.querySelector('.texto');
-    if(txt && txt.dataset.text) setTimeout(()=>digitarTexto(txt), 1200*i);
+// mostrar etapa
+function mostrarEtapa(i){
+  stages.forEach(s=>s.classList.remove("active"));
+  stages[i].classList.add("active");
+  const txt = stages[i].querySelector(".texto");
+  if(txt) digitarTexto(txt);
+}
+
+// trocar de etapa
+function proximaEtapa(){
+  if(currentStage < stages.length-1){
+    fade.style.opacity=1;
+    setTimeout(()=>{
+      fade.style.opacity=0;
+      currentStage++;
+      mostrarEtapa(currentStage);
+    },800);
+  }
+}
+
+// teclas e botão
+document.addEventListener('keydown',e=>{
+  if(e.key==="ArrowDown") proximaEtapa();
+});
+nextBtn.addEventListener('click',proximaEtapa);
+
+// botão inicial
+startBtn.addEventListener('click',()=>{
+  intro.style.opacity='0';
+  setTimeout(()=>{
+    intro.style.display='none';
+    mostrarEtapa(currentStage);
+  },800);
+  music.play().catch(()=>{
+    document.body.addEventListener('click',()=>music.play(),{once:true});
   });
 });
 
-// carrossel
+// carrossel fotos
 stages.forEach(stage=>{
   const fotos = stage.querySelectorAll('.foto');
   if(fotos.length>1){
     let idx=0;
-    setInterval(()=>{
-      fotos[idx].classList.remove('ativa');
-      idx=(idx+1)%fotos.length;
-      fotos[idx].classList.add('ativa');
-    },5000);
+    const next = stage.querySelector('.next');
+    const prev = stage.querySelector('.prev');
+    function show(n){
+      fotos.forEach(f=>f.classList.remove('ativa'));
+      fotos[n].classList.add('ativa');
+    }
+    next?.addEventListener('click',()=>{idx=(idx+1)%fotos.length;show(idx);});
+    prev?.addEventListener('click',()=>{idx=(idx-1+fotos.length)%fotos.length;show(idx);});
   }
 });
 
@@ -58,7 +95,7 @@ resize();window.addEventListener('resize',resize);
 const p=[];
 for(let i=0;i<150;i++){
   p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5,
-    dx:(Math.random()-0.5)*0.3,dy:(Math.random()-0.5)*0.3,a:Math.random()*0.6+0.2});
+  dx:(Math.random()-0.5)*0.3,dy:(Math.random()-0.5)*0.3,a:Math.random()*0.6+0.2});
 }
 function draw(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -74,12 +111,3 @@ function draw(){
   requestAnimationFrame(draw);
 }
 draw();
-
-// botão inicial
-startBtn.addEventListener('click',()=>{
-  intro.style.opacity='0';
-  setTimeout(()=>intro.style.display='none',800);
-  music.play().catch(()=>{
-    document.body.addEventListener('click',()=>music.play(),{once:true});
-  });
-});
