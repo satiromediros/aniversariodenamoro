@@ -20,7 +20,7 @@ function atualizarContador() {
 setInterval(atualizarContador, 1000);
 atualizarContador();
 
-// digitação suave (sem som)
+// texto digitando
 async function digitarTexto(el) {
   const texto = el.dataset.text;
   if (!texto) return;
@@ -31,7 +31,6 @@ async function digitarTexto(el) {
   }
 }
 
-// garante que as frases aparecem sempre
 window.addEventListener("load", () => {
   stages.forEach(stage => {
     const txt = stage.querySelector('.texto');
@@ -39,7 +38,7 @@ window.addEventListener("load", () => {
   });
 });
 
-// carrossel de fotos
+// carrossel
 stages.forEach(stage => {
   const fotos = stage.querySelectorAll('.foto');
   if (fotos.length > 1) {
@@ -56,13 +55,9 @@ stages.forEach(stage => {
   }
 });
 
-// partículas de fundo
-function resize() {
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-}
-resize();
-window.addEventListener('resize', resize);
+// partículas
+function resize() {canvas.width = innerWidth; canvas.height = innerHeight;}
+resize(); window.addEventListener('resize', resize);
 const p = [];
 for (let i = 0; i < 120; i++) {
   p.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.5, dx:(Math.random()-0.5)*0.2, dy:(Math.random()-0.5)*0.2, a: Math.random()*0.5+0.2});
