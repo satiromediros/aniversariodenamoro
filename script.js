@@ -1,133 +1,96 @@
-// Configurações iniciais
-const stages = Array.from(document.querySelectorAll('.stage'));
-const contadorEl = document.getElementById('contador');
-const music = document.getElementById('musica');
-const typingSound = document.getElementById('typing-sound');
+const stages = document.querySelectorAll('.stage');
+const contador = document.getElementById('contador');
+const music = document.getElementById('music');
+const typing = document.getElementById('typing');
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
-const START_DATE = new Date("2022-10-29T00:00:00");
+const startBtn = document.getElementById('startButton');
+const intro = document.getElementById('intro');
+const startDate = new Date("2022-10-29T00:00:00");
 
-// Atualizador de tempo juntos
-function updateCounter() {
-  const now = new Date();
-  let diff = now - START_DATE;
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
-  contadorEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+// contador
+function atualizarContador(){
+  const agora = new Date();
+  let diff = agora - startDate;
+  let d = Math.floor(diff / (1000*60*60*24));
+  let h = Math.floor((diff / (1000*60*60)) % 24);
+  let m = Math.floor((diff / (1000*60)) % 60);
+  let s = Math.floor((diff / 1000) % 60);
+  contador.textContent = `${d}d ${h}h ${m}m ${s}s`;
 }
-setInterval(updateCounter, 1000);
-updateCounter();
+setInterval(atualizarContador,1000);
+atualizarContador();
 
-// Função de digitação lenta + som
-async function typeText(el) {
-  const text = el.dataset.text;
-  if (!text) {
-    console.warn("Elemento texto sem data-text:", el);
-    return;
-  }
+// tipagem
+async function digitarTexto(el){
+  const texto = el.dataset.text;
   el.textContent = "";
-  for (let i = 0; i < text.length; i++) {
-    el.textContent += text[i];
-    typingSound.currentTime = 0;
-    typingSound.volume = 0.07;
-    typingSound.play().catch(() => {});
-    await new Promise(r => setTimeout(r, 100));
+  for(let i=0;i<texto.length;i++){
+    el.textContent += texto[i];
+    typing.currentTime = 0;
+    typing.volume = 0.06;
+    typing.play().catch(()=>{});
+    await new Promise(r=>setTimeout(r,100));
   }
 }
 
-// Observador de seções (quando entram em foco)
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    const sec = entry.target;
-    if (entry.isIntersecting) {
-      sec.classList.add('ativa');
-      const txt = sec.querySelector('.texto');
-      const doType = sec.dataset.typing === "true";
-      if (txt && doType && txt.textContent.trim() === "") {
-        typeText(txt);
-      }
-    } else {
-      sec.classList.remove('ativa');
+// seções
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('ativa');
+      const txt = entry.target.querySelector('.texto');
+      if(txt && !txt.textContent) digitarTexto(txt);
     }
   });
-}, { threshold: 0.5 });
+},{threshold:0.5});
+stages.forEach(s=>observer.observe(s));
 
-stages.forEach(s => observer.observe(s));
-
-// Carrossel de fotos por etapa
-stages.forEach(stage => {
-  const fotos = Array.from(stage.querySelectorAll('.foto'));
-  if (fotos.length < 1) return;
-  let index = fotos.findIndex(f => f.classList.contains('ativa'));
-  if (index < 0) index = 0;
-  fotos.forEach((f,i) => {
-    if (i === index) f.classList.add('ativa');
-    else f.classList.remove('ativa');
-  });
-
-  const nextBtn = stage.querySelector('.next');
-  const prevBtn = stage.querySelector('.prev');
-
-  // auto troca
-  setInterval(() => {
-    fotos[index].classList.remove('ativa');
-    index = (index + 1) % fotos.length;
-    fotos[index].classList.add('ativa');
-  }, 5000);
-
-  // botões manuais
-  nextBtn?.addEventListener('click', () => {
-    fotos[index].classList.remove('ativa');
-    index = (index + 1) % fotos.length;
-    fotos[index].classList.add('ativa');
-  });
-  prevBtn?.addEventListener('click', () => {
-    fotos[index].classList.remove('ativa');
-    index = (index - 1 + fotos.length) % fotos.length;
-    fotos[index].classList.add('ativa');
-  });
+// fotos
+stages.forEach(stage=>{
+  const fotos = stage.querySelectorAll('.foto');
+  if(fotos.length>1){
+    let idx=0;
+    const next=stage.querySelector('.next');
+    const prev=stage.querySelector('.prev');
+    function show(n){
+      fotos.forEach(f=>f.classList.remove('ativa'));
+      fotos[n].classList.add('ativa');
+    }
+    next?.addEventListener('click',()=>{idx=(idx+1)%fotos.length;show(idx);});
+    prev?.addEventListener('click',()=>{idx=(idx-1+fotos.length)%fotos.length;show(idx);});
+    setInterval(()=>{idx=(idx+1)%fotos.length;show(idx);},5000);
+  }
 });
 
-// Partículas de fundo
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+// partículas
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
+resize();window.addEventListener('resize',resize);
+const p=[];
+for(let i=0;i<120;i++){
+  p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5,dx:(Math.random()-0.5)*0.2,dy:(Math.random()-0.5)*0.2,a:Math.random()*0.5+0.2});
 }
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-const particles = [];
-const PCOUNT = Math.floor((canvas.width * canvas.height) / 20000);
-for (let i = 0; i < PCOUNT; i++) {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 1.5 + 0.5,
-    dx: (Math.random() - 0.5) * 0.2,
-    dy: (Math.random() - 0.5) * 0.2,
-    alpha: Math.random() * 0.5 + 0.2
-  });
-}
-
-function drawParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (const p of particles) {
-    p.x += p.dx;
-    p.y += p.dy;
-    if (p.x < 0) p.x = canvas.width;
-    if (p.x > canvas.width) p.x = 0;
-    if (p.y < 0) p.y = canvas.height;
-    if (p.y > canvas.height) p.y = 0;
-    const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 8);
-    grad.addColorStop(0, `rgba(255,255,255,${p.alpha})`);
-    grad.addColorStop(1, `rgba(255,255,255,0)`);
-    ctx.fillStyle = grad;
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(const s of p){
+    s.x+=s.dx;s.y+=s.dy;
+    if(s.x<0)s.x=canvas.width;if(s.x>canvas.width)s.x=0;
+    if(s.y<0)s.y=canvas.height;if(s.y>canvas.height)s.y=0;
+    const g=ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*8);
+    g.addColorStop(0,`rgba(255,255,255,${s.a})`);
+    g.addColorStop(1,`rgba(255,255,255,0)`);
+    ctx.fillStyle=g;
     ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+    ctx.arc(s.x,s.y,s.r*4,0,Math.PI*2);
     ctx.fill();
   }
-  requestAnimationFrame(drawParticles);
+  requestAnimationFrame(draw);
 }
-drawParticles();
+draw();
+
+// iniciar
+startBtn.addEventListener('click',()=>{
+  intro.style.opacity='0';
+  setTimeout(()=>{intro.style.display='none';window.scrollTo({top:window.innerHeight,behavior:'smooth'});},800);
+  music.play().catch(()=>{});
+});
