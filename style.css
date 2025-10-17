@@ -1,159 +1,102 @@
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  background:#000;
-  color:#fff;
-  font-family:'Poppins',sans-serif;
-  overflow-x:hidden;
-  scroll-behavior:smooth;
-}
-canvas#particles{
-  position:fixed;
-  width:100%;height:100%;
-  top:0;left:0;
-  z-index:0;
-  pointer-events:none;
-}
-header{
-  position:fixed;
-  top:20px;left:50%;
-  transform:translateX(-50%);
-  z-index:10;
-  background:rgba(0,0,0,0.4);
-  padding:8px 16px;
-  border-radius:20px;
-  text-align:center;
-}
-#contador{color:#ccc;font-size:14px;font-weight:500}
-
-/* INTRO */
-#intro{
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  text-align:center;
-  z-index:5;
-  background:#000;
-  animation:fadeIn 1.5s ease;
-}
-.intro-line{
-  font-size:1.5rem;
-  opacity:0;
-  transform:translateY(15px);
-  animation:fadeSlide 2s ease forwards;
-}
-.intro-line:nth-child(1){animation-delay:0.8s;}
-.intro-line:nth-child(2){animation-delay:2.8s;}
-
-#startButton{
-  margin-top:40px;
-  font-size:2.5rem;
-  background:none;
-  border:none;
-  color:#fff;
-  cursor:pointer;
-  animation:bounce 1.8s infinite ease-in-out;
-}
-@keyframes bounce{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(10px);}
-}
-@keyframes fadeSlide{
-  to{opacity:1;transform:translateY(0);}
+* {margin:0; padding:0; box-sizing:border-box;}
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  background: radial-gradient(ellipse at top, #000 0%, #111 100%);
+  overflow-x: hidden;
 }
 
-/* SEÇÕES */
-.stage{
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  align-items:center;
-  position:relative;
-  text-align:center;
-  scroll-snap-align:start;
-  opacity:0;
-  transform:translateY(40px);
-  transition:opacity 1s ease,transform 1s ease;
-}
-.stage.ativa{opacity:1;transform:translateY(0);}
-
-/* POLAROID */
-.card{
-  position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  width:90%;max-width:600px;
-}
-.foto{
-  position:absolute;
-  max-width:80%;
-  border-radius:6px;
-  background:#fff;
-  padding:10px 10px 30px 10px;
-  box-shadow:0 12px 25px rgba(0,0,0,0.8);
-  opacity:0;
-  transform:rotate(-2deg) scale(0.95);
-  transition:opacity 1s ease,transform 1s ease;
-}
-.foto.ativa{
-  opacity:1;
-  transform:rotate(0deg) scale(1);
+canvas#particles {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
 }
 
-/* TEXTO */
-.texto{
-  position:absolute;
-  bottom:8%;
-  width:90%;
-  max-width:700px;
-  font-size:1.3rem;
-  background:rgba(0,0,0,0.4);
-  padding:12px 18px;
-  border-radius:12px;
-  line-height:1.5;
-  text-shadow:0 0 10px rgba(0,0,0,0.8);
-  z-index:5;
+header {
+  text-align: center;
+  margin-top: 20px;
 }
-.texto.final{
-  font-size:2rem;
-  font-weight:600;
-  width:90%;
-  bottom:45%;
+h3 {font-weight:500; font-size: 1.2rem;}
+#contador {font-size: 0.9rem; opacity:0.8;}
+
+.intro-content {
+  text-align: center;
+  margin-top: 35vh;
 }
-.assinatura{
-  position:absolute;
-  bottom:15%;
-  font-style:italic;
-  font-size:1.2rem;
-  color:#ccc;
+.intro-line {
+  font-size: 1.3rem;
+  margin: 10px 0;
+}
+#startButton {
+  margin-top: 20px;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
 }
 
-/* CONTROLES */
-.controles{
-  position:absolute;
-  bottom:20%;
-  display:flex;
-  gap:10px;
-}
-.controles button{
-  background:rgba(0,0,0,0.6);
-  border:1px solid rgba(255,255,255,0.3);
-  color:white;
-  padding:8px 14px;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:1.1rem;
+main {
+  margin-top: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
 }
 
-/* RESPONSIVO */
-@media(max-width:768px){
-  .texto{font-size:1rem;}
-  .texto.final{font-size:1.4rem;}
-  .foto{max-width:90%;}
+.stage {
+  text-align: center;
+  position: relative;
 }
-@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+.card {
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+  margin: 0 auto 20px;
+  border: 8px solid #fff;
+  border-radius: 12px;
+  background-color: #000;
+  box-shadow: 0 0 30px rgba(255,255,255,0.15);
+}
+.foto {
+  display: none;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+.foto.ativa {display: block;}
+
+.texto {
+  font-size: 1.1rem;
+  color: #eee;
+  text-shadow: 0 0 8px rgba(255,255,255,0.2);
+  margin-top: 10px;
+}
+
+.texto.final {
+  font-size: 1.4rem;
+  margin-top: 50px;
+}
+
+.assinatura {
+  margin-top: 10px;
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.controles {
+  margin-top: 10px;
+}
+button.prev, button.next {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+button:hover {background: rgba(255,255,255,0.3);}
