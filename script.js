@@ -21,7 +21,7 @@ function atualizarContador() {
 setInterval(atualizarContador, 1000);
 atualizarContador();
 
-// tipagem
+// tipagem suave
 async function digitarTexto(el) {
   const texto = el.dataset.text;
   if (!texto) return;
@@ -31,29 +31,17 @@ async function digitarTexto(el) {
     typing.currentTime = 0;
     typing.volume = 0.06;
     typing.play().catch(() => {});
-    await new Promise(r => setTimeout(r, 100));
+    await new Promise(r => setTimeout(r, 90));
   }
 }
 
-// ativa frases e seções
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('ativa');
-      const txt = entry.target.querySelector('.texto');
-      if (txt && !txt.textContent.trim()) digitarTexto(txt);
-    }
+// garante que as frases aparecem sempre
+setTimeout(() => {
+  stages.forEach(stage => {
+    const txt = stage.querySelector('.texto');
+    if (txt && txt.dataset.text) digitarTexto(txt);
   });
-}, { threshold: 0.3 });
-
-// garante que todas as frases apareçam mesmo sem observer
-stages.forEach(stage => {
-  observer.observe(stage);
-  const txt = stage.querySelector('.texto');
-  if (txt && stage.getBoundingClientRect().top < window.innerHeight) {
-    digitarTexto(txt);
-  }
-});
+}, 1200);
 
 // carrossel de fotos
 stages.forEach(stage => {
@@ -72,7 +60,7 @@ stages.forEach(stage => {
   }
 });
 
-// esconde imagens com erro
+// esconde imagens que falharem
 document.querySelectorAll("img.foto").forEach(img => {
   img.addEventListener("error", () => {
     console.warn("Imagem não encontrada:", img.src);
@@ -80,7 +68,7 @@ document.querySelectorAll("img.foto").forEach(img => {
   });
 });
 
-// partículas
+// partículas de fundo
 function resize() {
   canvas.width = innerWidth;
   canvas.height = innerHeight;
@@ -125,5 +113,12 @@ startBtn.addEventListener('click', () => {
     intro.style.display = 'none';
     window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
   }, 800);
-  music.play().catch(() => {});
+  // toca música com fallback
+  music.volume = 0.6;
+  music.play().then(() => {
+    console.log("🎵 Música tocando");
+  }).catch(err => {
+    console.warn("⚠️ Autoplay bloqueado, aguardando interação:", err);
+    document.body.addEventListener('click', () => music.play(), { once: true });
+  });
 });
