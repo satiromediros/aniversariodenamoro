@@ -1,7 +1,6 @@
 const stages = document.querySelectorAll('.stage');
 const contador = document.getElementById('contador');
 const music = document.getElementById('music');
-const typing = document.getElementById('typing');
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
 const startBtn = document.getElementById('startButton');
@@ -21,16 +20,13 @@ function atualizarContador() {
 setInterval(atualizarContador, 1000);
 atualizarContador();
 
-// digitação suave
+// digitação suave (sem som)
 async function digitarTexto(el) {
   const texto = el.dataset.text;
   if (!texto) return;
   el.textContent = "";
   for (let i = 0; i < texto.length; i++) {
     el.textContent += texto[i];
-    typing.currentTime = 0;
-    typing.volume = 0.05;
-    typing.play().catch(()=>{});
     await new Promise(r => setTimeout(r, 90));
   }
 }
