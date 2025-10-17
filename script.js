@@ -6,7 +6,6 @@ const ctx = canvas.getContext('2d');
 const startBtn = document.getElementById('startButton');
 const intro = document.getElementById('intro');
 const nextBtn = document.getElementById('nextStage');
-const fade = document.getElementById('fade');
 let currentStage = 0;
 const startDate = new Date("2022-10-29T00:00:00");
 
@@ -23,7 +22,7 @@ function atualizarContador(){
 setInterval(atualizarContador,1000);
 atualizarContador();
 
-// digitar texto
+// texto digitando
 async function digitarTexto(el){
   const texto = el.dataset.text;
   if(!texto) return;
@@ -43,15 +42,12 @@ function mostrarEtapa(i){
   if(txt) digitarTexto(txt);
 }
 
-// trocar de etapa
+// próxima etapa
 function proximaEtapa(){
   if(currentStage < stages.length-1){
-    fade.style.opacity=1;
-    setTimeout(()=>{
-      fade.style.opacity=0;
-      currentStage++;
-      mostrarEtapa(currentStage);
-    },800);
+    currentStage++;
+    mostrarEtapa(currentStage);
+    window.scrollTo({top:0,behavior:"smooth"});
   }
 }
 
