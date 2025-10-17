@@ -21,7 +21,7 @@ function atualizarContador() {
 setInterval(atualizarContador, 1000);
 atualizarContador();
 
-// tipagem suave
+// digitação das frases
 async function digitarTexto(el) {
   const texto = el.dataset.text;
   if (!texto) return;
@@ -35,13 +35,15 @@ async function digitarTexto(el) {
   }
 }
 
-// garante que as frases aparecem sempre
-setTimeout(() => {
+// ativa frases automaticamente
+window.addEventListener("load", () => {
   stages.forEach(stage => {
     const txt = stage.querySelector('.texto');
-    if (txt && txt.dataset.text) digitarTexto(txt);
+    if (txt && txt.dataset.text) {
+      setTimeout(() => digitarTexto(txt), 600);
+    }
   });
-}, 1200);
+});
 
 // carrossel de fotos
 stages.forEach(stage => {
@@ -60,7 +62,7 @@ stages.forEach(stage => {
   }
 });
 
-// esconde imagens que falharem
+// esconde imagens com erro
 document.querySelectorAll("img.foto").forEach(img => {
   img.addEventListener("error", () => {
     console.warn("Imagem não encontrada:", img.src);
@@ -113,12 +115,12 @@ startBtn.addEventListener('click', () => {
     intro.style.display = 'none';
     window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
   }, 800);
-  // toca música com fallback
+
   music.volume = 0.6;
   music.play().then(() => {
-    console.log("🎵 Música tocando");
+    console.log("🎵 Música tocando!");
   }).catch(err => {
-    console.warn("⚠️ Autoplay bloqueado, aguardando interação:", err);
+    console.warn("⚠️ Autoplay bloqueado:", err);
     document.body.addEventListener('click', () => music.play(), { once: true });
   });
 });
