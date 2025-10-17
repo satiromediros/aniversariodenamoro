@@ -2,48 +2,52 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Túnel do Tempo💫</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Túnel do Tempo 💫</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <canvas id="particles"></canvas>
 
-  <header id="topo">
-    <div id="topo-inner">
-      <div id="contador-label">Nosso tempo juntos 💫</div>
-      <div id="contador">0d 0h 0m 0s</div>
-    </div>
+  <header>
+    <h3>Nosso tempo juntos 💞</h3>
+    <p id="contador"></p>
   </header>
 
-  <div id="player">
-    <button id="btn-play">🎧 Começar música</button>
-    <audio id="musica" src="piloto.mp3" preload="auto" loop></audio>
-    <audio id="typing-sound" src="typing.mp3" preload="auto"></audio>
-  </div>
+  <audio id="music" src="piloto.mp3" preload="auto" autoplay loop></audio>
+
+  <!-- TELA INICIAL -->
+  <section id="intro">
+    <div class="intro-content">
+      <p class="intro-line">🎧 Sobe o som.</p>
+      <p class="intro-line">Desce devagar, e me deixa te contar uma história…</p>
+      <button id="startButton">⬇️</button>
+    </div>
+  </section>
 
   <main id="main">
-    <section class="stage" data-step="1" data-typing="true" data-fotos="etapa 1">
+    <section class="stage" data-fotos="etapa 1" data-typing="true">
       <div class="card">
-        <img src="fotos/etapa 1/1.jpg" alt="" class="foto ativa">
-        <img src="fotos/etapa 1/2.jpg" alt="" class="foto">
+        <img src="fotos/etapa 1/1.jpg" class="foto ativa">
+        <img src="fotos/etapa 1/2.jpg" class="foto">
       </div>
-      <p class="texto" data-text="O começo de tudo…"></p>
+      <p class="texto" data-text="✨ O começo de tudo… 💫"></p>
       <div class="controles">
-        <button class="prev">◀</button>
-        <button class="next">▶</button>
+        <button class="prev">⬅️</button>
+        <button class="next">➡️</button>
       </div>
     </section>
 
-    <section class="stage" data-step="2" data-typing="true" data-fotos="etapa 2">
+    <section class="stage" data-fotos="etapa 2" data-typing="true">
       <div class="card">
-        <img src="fotos/etapa 2/1.jpg" alt="" class="foto ativa">
+        <img src="fotos/etapa 2/1.jpg" class="foto ativa">
       </div>
-      <p class="texto" data-text="Era 29 de outubro de 2022 e ali eu tomei uma das melhores escolhas da minha vida, dividir ela com você, e desde aquele dia tudo mudou."></p>
+      <p class="texto" data-text="💖 Era 29 de outubro de 2022 e ali eu tomei uma das melhores escolhas da minha vida, dividir ela com você, e desde aquele dia tudo mudou. 🌙"></p>
     </section>
 
-    <section class="stage" data-step="3" data-typing="true" data-fotos="etapa 3">
+    <section class="stage" data-fotos="etapa 3" data-typing="true">
       <div class="card">
         <img src="fotos/etapa 3/1.jpg" class="foto ativa">
         <img src="fotos/etapa 3/2.jpg" class="foto">
@@ -53,40 +57,40 @@
         <img src="fotos/etapa 3/6.jpg" class="foto">
         <img src="fotos/etapa 3/7.jpg" class="foto">
       </div>
-      <p class="texto" data-text="Desde então vivemos tanta coisa, que parece até filme."></p>
+      <p class="texto" data-text="🎬 Desde então vivemos tanta coisa, que parece até filme. 💕"></p>
       <div class="controles">
-        <button class="prev">◀</button>
-        <button class="next">▶</button>
+        <button class="prev">⬅️</button>
+        <button class="next">➡️</button>
       </div>
     </section>
 
-    <section class="stage" data-step="4" data-typing="true" data-fotos="etapa 4">
+    <section class="stage" data-fotos="etapa 4" data-typing="true">
       <div class="card">
         <img src="fotos/etapa 4/1.jpg" class="foto ativa">
         <img src="fotos/etapa 4/2.jpg" class="foto">
-        <img src="fotos/etapa 4/3.HEIC" class="foto">
+        <img src="fotos/etapa 4/3.jpg" class="foto">
         <img src="fotos/etapa 4/4.jpg" class="foto">
-        <img src="fotos/etapa 4/5.HEIC" class="foto">
-        <img src="fotos/etapa 4/6.HEIC" class="foto">
+        <img src="fotos/etapa 4/5.jpg" class="foto">
+        <img src="fotos/etapa 4/6.jpg" class="foto">
         <img src="fotos/etapa 4/7.jpg" class="foto">
       </div>
-      <p class="texto" data-text="Entre planos, momentos e muito dengo, a gente construiu nosso mundinho, só nosso."></p>
+      <p class="texto" data-text="🏡 Entre planos, momentos e muito dengo, a gente construiu nosso mundinho, só nosso. 💞"></p>
       <div class="controles">
-        <button class="prev">◀</button>
-        <button class="next">▶</button>
+        <button class="prev">⬅️</button>
+        <button class="next">➡️</button>
       </div>
     </section>
 
-    <section class="stage" data-step="5" data-typing="true" data-fotos="etapa 5">
+    <section class="stage" data-fotos="etapa 5" data-typing="true">
       <div class="card">
-        <img src="fotos/etapa 5/1.jpg" alt="" class="foto ativa">
+        <img src="fotos/etapa 5/1.jpg" class="foto ativa">
       </div>
-      <p class="texto" data-text="E é dessa forma que eu quero passar todos os dias da minha vida, do seu lado."></p>
+      <p class="texto" data-text="💍 E é dessa forma que eu quero passar todos os dias da minha vida, do seu lado. 💖"></p>
     </section>
 
-    <section class="stage" data-step="6" data-typing="true">
-      <div class="card final"></div>
-      <p class="texto" data-text="Te amo com toda minha alma, corpo e coração e não vejo a hora de ser sua esposa."></p>
+    <section class="stage" data-typing="true">
+      <div class="card"></div>
+      <p class="texto final" data-text="💫 Te amo com toda minha alma, corpo e coração e não vejo a hora de ser sua esposa. 💍"></p>
       <p class="assinatura">Com amor, sua Carol 💌</p>
     </section>
   </main>
