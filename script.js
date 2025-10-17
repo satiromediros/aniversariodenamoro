@@ -35,6 +35,7 @@ async function digitarTexto(el) {
   }
 }
 
+// garante que as frases aparecem sempre
 window.addEventListener("load", () => {
   stages.forEach(stage => {
     const txt = stage.querySelector('.texto');
@@ -59,12 +60,7 @@ stages.forEach(stage => {
   }
 });
 
-// oculta imagens quebradas
-document.querySelectorAll("img.foto").forEach(img => {
-  img.addEventListener("error", () => img.style.display = "none");
-});
-
-// partículas
+// partículas de fundo
 function resize() {
   canvas.width = innerWidth;
   canvas.height = innerHeight;
