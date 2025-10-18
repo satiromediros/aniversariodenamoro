@@ -22,14 +22,14 @@ function atualizarContador(){
 setInterval(atualizarContador,1000);
 atualizarContador();
 
-// texto digitando
+// texto digitando (mais rápido)
 async function digitarTexto(el){
   const texto = el.dataset.text;
   if(!texto) return;
   el.textContent="";
   for(let i=0;i<texto.length;i++){
     el.textContent+=texto[i];
-    await new Promise(r=>setTimeout(r,70));
+    await new Promise(r=>setTimeout(r,40)); // era 70 → agora mais suave
   }
   el.classList.add("show");
 }
