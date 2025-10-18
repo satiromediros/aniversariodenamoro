@@ -12,18 +12,27 @@ h3{font-weight:500;font-size:1.2rem;}
 @keyframes fadeIn{to{opacity:1;}}
 
 main{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;transition:transform 1s ease;}
-.stage{min-height:100vh;display:none;flex-direction:column;align-items:center;text-align:center;padding:40px;opacity:0;transform:translateY(50px);transition:opacity 0.8s,transform 1s;}
+.stage{min-height:100vh;display:none;flex-direction:column;align-items:center;text-align:center;padding:30px;opacity:0;transform:translateY(50px);transition:opacity 0.8s,transform 1s;}
 .stage.active{display:flex;opacity:1;transform:translateY(0);}
-.card{position:relative;width:90%;max-width:350px;border:10px solid #fff;border-bottom:40px solid #fff;border-radius:8px;box-shadow:0 0 40px rgba(255,255,255,0.2);background:#000;animation:floaty 4s ease-in-out infinite;}
+.card{position:relative;width:85%;max-width:340px;border:8px solid #fff;border-bottom:35px solid #fff;border-radius:8px;box-shadow:0 0 30px rgba(255,255,255,0.25);background:#000;animation:floaty 4s ease-in-out infinite;}
 @keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
 .foto{display:none;width:100%;border-radius:8px;}
 .foto.ativa{display:block;}
 .controles{margin-top:10px;}
 .prev,.next{background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:1.5rem;margin:0 5px;padding:5px 10px;border-radius:8px;cursor:pointer;}
-.texto{margin-top:20px;min-height:50px;color:#eee;font-size:1.1rem;text-shadow:0 0 10px rgba(255,255,255,0.3);opacity:0;}
+.texto{margin-top:20px;min-height:50px;color:#eee;font-size:1.05rem;text-shadow:0 0 10px rgba(255,255,255,0.3);opacity:0;max-width:90vw;line-height:1.5;}
 .texto.show{animation:appear 1s forwards;}
 @keyframes appear{to{opacity:1;}}
 .texto.final{font-size:1.3rem;margin-top:50px;}
 .assinatura{margin-top:10px;font-size:1rem;opacity:.8;}
 #nextStage{position:fixed;bottom:20px;right:20px;font-size:2rem;cursor:pointer;opacity:.7;transition:opacity .3s;}
 #nextStage:hover{opacity:1;}
+
+/* 📱 Responsivo */
+@media (max-width: 768px){
+  .card{width:90%;max-width:280px;border:6px solid #fff;border-bottom:28px solid #fff;}
+  .texto{font-size:1rem;padding:0 10px;}
+  h3{font-size:1rem;}
+  #contador{font-size:0.8rem;}
+  #nextStage{bottom:15px;right:15px;font-size:1.8rem;}
+}
