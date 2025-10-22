@@ -1,16 +1,6 @@
 *{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:'Poppins',sans-serif;
-  background:#000;
-  color:#fff;
-  overflow:hidden;
-}
-canvas#particles{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  z-index:-1;
-}
+body{font-family:'Poppins',sans-serif;background:#000;color:#fff;overflow:hidden;}
+canvas#particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
 header{text-align:center;margin-top:20px;}
 h3{font-weight:500;font-size:1.2rem;}
 #contador{font-size:0.9rem;opacity:.8;}
@@ -52,17 +42,16 @@ main{
   flex-direction:column;
   align-items:center;
   text-align:center;
-  padding:30px 10px;
+  padding:40px 10px;
   opacity:0;
   transform:translateY(50px);
   transition:opacity 0.8s,transform 1s;
 }
 .stage.active{display:flex;opacity:1;transform:translateY(0);}
-
 .card{
   position:relative;
-  width:70%;
-  max-width:260px;
+  width:75%;
+  max-width:300px;
   aspect-ratio:1/1;
   border:8px solid #fff;
   border-bottom:32px solid #fff;
@@ -72,30 +61,11 @@ main{
   animation:floaty 4s ease-in-out infinite;
   overflow:hidden;
 }
-@keyframes floaty{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-8px);}
-}
-.foto{
-  display:none;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:8px;
-}
+@keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.foto{display:none;width:100%;height:100%;object-fit:cover;border-radius:8px;}
 .foto.ativa{display:block;}
-
 .controles{margin-top:10px;}
-.prev,.next{
-  background:rgba(255,255,255,0.1);
-  border:none;
-  color:#fff;
-  font-size:1.3rem;
-  margin:0 5px;
-  padding:5px 10px;
-  border-radius:8px;
-  cursor:pointer;
-}
+.prev,.next{background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:1.3rem;margin:0 5px;padding:5px 10px;border-radius:8px;cursor:pointer;}
 
 .texto{
   margin-top:20px;
@@ -104,31 +74,28 @@ main{
   line-height:1.6;
   max-width:85vw;
   text-shadow:0 0 10px rgba(255,255,255,0.3);
-  opacity:0;
-  transition:opacity 1s;
+  opacity:1;
 }
-.texto.show{opacity:1;}
 .texto.final{font-size:1.25rem;margin-top:40px;}
 .assinatura{margin-top:10px;font-size:1rem;opacity:.8;}
-
-#nextStage{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  font-size:2rem;
-  cursor:pointer;
-  opacity:.7;
-  transition:opacity .3s;
-}
+#nextStage{position:fixed;bottom:20px;right:20px;font-size:2rem;cursor:pointer;opacity:.7;transition:opacity .3s;}
 #nextStage:hover{opacity:1;}
+#restart{
+  margin-top:30px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid #fff;
+  color:#fff;
+  font-size:1rem;
+  padding:10px 20px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.3s;
+}
+#restart:hover{background:rgba(255,255,255,0.3);}
 
 /* 📱 Responsivo */
-@media (max-width: 1024px){
-  .card{width:75%;max-width:230px;}
-  .texto{font-size:1rem;max-width:90%;}
-}
 @media (max-width: 768px){
-  .card{width:80%;max-width:200px;border:6px solid #fff;border-bottom:26px solid #fff;}
-  .texto{font-size:0.95rem;max-width:92%;line-height:1.5;}
+  .card{width:85%;max-width:240px;border:6px solid #fff;border-bottom:26px solid #fff;}
+  .texto{font-size:1rem;max-width:92%;line-height:1.5;}
   #nextStage{bottom:15px;right:15px;font-size:1.8rem;}
 }
