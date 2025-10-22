@@ -6,6 +6,7 @@ const ctx = canvas.getContext('2d');
 const startBtn = document.getElementById('startButton');
 const intro = document.getElementById('intro');
 const nextBtn = document.getElementById('nextStage');
+const restartBtn = document.getElementById('restart');
 let currentStage = 0;
 const startDate = new Date("2022-10-29T00:00:00");
 
@@ -22,24 +23,10 @@ function atualizarContador(){
 setInterval(atualizarContador,1000);
 atualizarContador();
 
-// texto digitando (mais rápido)
-async function digitarTexto(el){
-  const texto = el.dataset.text;
-  if(!texto) return;
-  el.textContent="";
-  for(let i=0;i<texto.length;i++){
-    el.textContent+=texto[i];
-    await new Promise(r=>setTimeout(r,40)); // era 70 → agora mais suave
-  }
-  el.classList.add("show");
-}
-
 // mostrar etapa
 function mostrarEtapa(i){
   stages.forEach(s=>s.classList.remove("active"));
   stages[i].classList.add("active");
-  const txt = stages[i].querySelector(".texto");
-  if(txt) digitarTexto(txt);
 }
 
 // próxima etapa
@@ -68,6 +55,17 @@ startBtn.addEventListener('click',()=>{
     document.body.addEventListener('click',()=>music.play(),{once:true});
   });
 });
+
+// botão recomeçar
+if(restartBtn){
+  restartBtn.addEventListener('click',()=>{
+    currentStage = 0;
+    stages.forEach(s=>s.classList.remove("active"));
+    intro.style.display='flex';
+    intro.style.opacity='1';
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+}
 
 // carrossel fotos
 stages.forEach(stage=>{
